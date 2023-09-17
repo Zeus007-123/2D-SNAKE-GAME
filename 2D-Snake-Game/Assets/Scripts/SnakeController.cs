@@ -17,6 +17,9 @@ public class SnakeController : MonoBehaviour
     public int initialSize = 4;
     public bool moveThroughWalls = false;
 
+    public GameOverController gameOverController;
+    public ScoreController scoreController;
+
     private void Start()
     {
        ResetState();
@@ -75,6 +78,12 @@ public class SnakeController : MonoBehaviour
         nextUpdate = Time.time + (1f / (speed * speedMultiplier));
     }
 
+    public void PickUpFood()
+    {
+        Debug.Log(" Snake has Eaten the Food ");
+        scoreController.IncreaseScore(10);
+    }
+
     private void Grow()
     {
            
@@ -90,6 +99,9 @@ public class SnakeController : MonoBehaviour
 
     private void ResetState()
     {
+
+        
+
         // Start at 1 to skip destroying the head
         for (int i = 1; i < segments.Count; i++)
         {
@@ -106,7 +118,7 @@ public class SnakeController : MonoBehaviour
             Grow();
         }
 
-       
+        
     }
 
     public bool Occupies(int x, int y)
@@ -148,6 +160,8 @@ public class SnakeController : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Obstacle"))
         {
+            //gameOverController.SnakeDied();
+            Invoke(nameof(Load_Scene), 0f);
             ResetState();
         }
         else if (collision.gameObject.CompareTag("Wall"))
@@ -158,8 +172,17 @@ public class SnakeController : MonoBehaviour
             }
             else
             {
+                //gameOverController.SnakeDied();
+                Invoke(nameof(Load_Scene), 0f);
                 ResetState();
             }
         }
+    }
+
+    private void Load_Scene()
+    {
+        Debug.Log(" Reloading Current Active Scene ");
+        gameOverController.SnakeDied();
+        
     }
 }

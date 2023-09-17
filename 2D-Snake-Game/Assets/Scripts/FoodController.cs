@@ -6,10 +6,12 @@ public class FoodController : MonoBehaviour
     public BoxCollider2D gridArea;
 
     private SnakeController snakeController;
+   
 
     private void Awake()
     {
         snakeController = FindObjectOfType<SnakeController>();
+       
     }
 
     private void Start()
@@ -48,8 +50,11 @@ public class FoodController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        SnakeController snakeController = collision.gameObject.GetComponent<SnakeController>();
+
         if (collision.gameObject.CompareTag("Snake"))
         {
+            snakeController.PickUpFood();
             RandomizePosition();
         }
     }
