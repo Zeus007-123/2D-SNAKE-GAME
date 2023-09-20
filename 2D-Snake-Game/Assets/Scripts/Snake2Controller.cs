@@ -47,6 +47,10 @@ public class Snake2Controller : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(CoOpGameOverController.isGameOver)
+        {
+            return;
+        }
         // Wait until the next update before proceeding
         if (Time.time < nextUpdate)
         {
@@ -77,12 +81,6 @@ public class Snake2Controller : MonoBehaviour
         nextUpdate = Time.time + (1f / (speed * speedMultiplier));
     }
 
-    public void PickUpFood()
-    {
-        Debug.Log(" Snake 2 has Eaten the Food ");
-        snake2scoreUIController.IncreaseScore(10);
-    }
-
     private void Grow()
     {
            
@@ -94,6 +92,20 @@ public class Snake2Controller : MonoBehaviour
         
 
         segments.Add(segment);
+    }
+
+    private void Shrink(int amount)
+    {
+        if (segments.Count > 3)
+        {
+            // Start removing segments from the end of the list
+            for (int i = 0; i < amount && segments.Count > 3; i++)
+            {
+                int lastIndex = segments.Count - 1;
+                Destroy(segments[lastIndex].gameObject);
+                segments.RemoveAt(lastIndex);
+            }
+        }
     }
 
     private void ResetState()
@@ -150,9 +162,21 @@ public class Snake2Controller : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
        
-        if (collision.gameObject.CompareTag("Food"))
+        if (collision.gameObject.CompareTag("MassGainerFood"))
         {
+            Debug.Log(" Snake 2 has Eaten the Mass Gainer Food ");
+            snake2scoreUIController.IncreaseScore(10);
             Grow();
+        }
+        else if (collision.gameObject.CompareTag("MassBurnerFood"))
+        {
+            if (segments.Count >= 5)
+            {
+                Debug.Log(" Snake 2 has Eaten the Mass Burner Food ");
+                snake2scoreUIController.DecreaseScore(7);
+                // Ensure the snake retains a minimum length of 3 segments
+                Shrink(2);
+            }
         }
         else if (collision.gameObject.CompareTag("Obstacle"))
         {

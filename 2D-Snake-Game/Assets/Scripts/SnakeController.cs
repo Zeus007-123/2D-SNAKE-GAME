@@ -1,6 +1,7 @@
 using System.Collections.Generic;
-using System;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(BoxCollider2D))]
 public class SnakeController : MonoBehaviour
@@ -44,6 +45,8 @@ public class SnakeController : MonoBehaviour
             canMoveUp = true;
             canMoveLeft = false;
         }
+
+       
     }
 
     private void FixedUpdate()
@@ -72,36 +75,34 @@ public class SnakeController : MonoBehaviour
 
         segments[1].position = hpos;
         
-
-
         // Set the next update time based on the speed
         nextUpdate = Time.time + (1f / (speed * speedMultiplier));
     }
 
-    public void PickUpFood()
-    {
-        Debug.Log(" Snake has Eaten the Food ");
-        scoreController.IncreaseScore(10);
+    private void Grow()
+    {   
+        Vector3 newPos = Vector2.zero;
+        newPos += segments[segments.Count - 1].position;
+        Transform segment = Instantiate(segmentPrefab, newPos, Quaternion.identity);
+        segments.Add(segment);
     }
 
-    private void Grow()
+    private void Shrink(int amount)
     {
-           
-        Vector3 newPos = Vector2.zero;
-        
-        newPos += segments[segments.Count - 1].position;
-
-        Transform segment = Instantiate(segmentPrefab, newPos, Quaternion.identity);
-        
-
-        segments.Add(segment);
+        if (segments.Count > 3)
+        {
+            // Start removing segments from the end of the list
+            for (int i = 0; i < amount && segments.Count > 3; i++)
+            {
+                int lastIndex = segments.Count - 1;
+                Destroy(segments[lastIndex].gameObject);
+                segments.RemoveAt(lastIndex);
+            }
+        }
     }
 
     private void ResetState()
     {
-
-        
-
         // Start at 1 to skip destroying the head
         for (int i = 1; i < segments.Count; i++)
         {
@@ -117,8 +118,6 @@ public class SnakeController : MonoBehaviour
         {
             Grow();
         }
-
-        
     }
 
     public bool Occupies(int x, int y)
@@ -151,12 +150,27 @@ public class SnakeController : MonoBehaviour
         transform.position = position;
     }
 
+    
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
        
-        if (collision.gameObject.CompareTag("Food"))
+        if (collision.gameObject.CompareTag("MassGainerFood"))
         {
+            Debug.Log(" Snake has Eaten the Mass Gainer Food ");
+            scoreController.IncreaseScore(10);
             Grow();
+        }
+        else if (collision.gameObject.CompareTag("MassBurnerFood"))
+        {
+            if (segments.Count >= 5)
+            {
+                Debug.Log(" Snake has Eaten the Mass Burner Food ");
+                scoreController.DecreaseScore(7);
+                // Ensure the snake retains a minimum length of 3 segments
+                Shrink(2);
+                
+            }
         }
         else if (collision.gameObject.CompareTag("Obstacle"))
         {

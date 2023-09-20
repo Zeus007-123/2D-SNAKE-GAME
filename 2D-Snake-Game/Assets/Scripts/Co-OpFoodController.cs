@@ -58,12 +58,10 @@ public class CoOpFoodController : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Snake1"))
         {
-            snake1Controller.PickUpFood();
             RandomizePosition();
         }
         else if (collision.gameObject.CompareTag("Snake2"))
         {
-            snake2Controller.PickUpFood();
             RandomizePosition();
         }
     }

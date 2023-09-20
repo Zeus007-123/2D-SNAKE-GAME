@@ -54,7 +54,6 @@ public class FoodController : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Snake"))
         {
-            snakeController.PickUpFood();
             RandomizePosition();
         }
     }

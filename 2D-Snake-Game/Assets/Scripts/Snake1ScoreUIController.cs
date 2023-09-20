@@ -10,11 +10,23 @@ public class Snake1ScoreUIController : MonoBehaviour
     private void Awake()
     {
         scoreText = GetComponent<TextMeshProUGUI>();
+        score = 0;
+        RefreshUI();
     }
 
     public void IncreaseScore(int increment)
     {
         score += increment;
+        RefreshUI();
+    }
+
+    public void DecreaseScore(int decrement)
+    {
+        score -= decrement;
+        if (score < 0)
+        {
+            score = 0;
+        }
         RefreshUI();
     }
 

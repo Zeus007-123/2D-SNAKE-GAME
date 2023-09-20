@@ -10,7 +10,7 @@ public class CoOpGameOverController : MonoBehaviour
     public GameObject GameOverScreen;
     public GameObject Score1;
     public GameObject Score2;
-    //public ParticleController particleController;
+    public static bool isGameOver = false;
 
     private void Awake()
     {
@@ -18,16 +18,20 @@ public class CoOpGameOverController : MonoBehaviour
         buttonHome.onClick.AddListener(GoHome);
     }
 
-    
+    private void Start()
+    {
+        isGameOver = false;
+        GameOverScreen.SetActive(false);
+    }
     public void SnakeDied()
     {
         //SoundManager.Instance.Play(Sounds.PlayerDeath);
         //SoundManager.Instance.Play(Sounds.DeathMusic);
         GameOverScreen.SetActive(true);
+        isGameOver = true;
         Score1.SetActive(false);
         Score2.SetActive(false);
         
-        //particleController.PlayOnLevelFail();
     }
 
     private void RestartLevel()

@@ -9,7 +9,6 @@ public class GameOverController : MonoBehaviour
 
     public GameObject GameOverScreen;
     public GameObject Score;
-    //public ParticleController particleController;
 
     private void Awake()
     {
@@ -22,7 +21,6 @@ public class GameOverController : MonoBehaviour
         //SoundManager.Instance.Play(Sounds.DeathMusic);
         GameOverScreen.SetActive(true);
         Score.SetActive(false);
-        //particleController.PlayOnLevelFail();
     }
 
     private void RestartLevel()
