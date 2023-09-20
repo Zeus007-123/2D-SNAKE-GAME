@@ -11,12 +11,24 @@ public class SnakeController : MonoBehaviour
     private float nextUpdate;
     private bool canMoveLeft = false; //false because you start going to right side at the beginning of the game
     private bool canMoveUp = true;
+    private float shieldExpirationTime;  // Time when the shield effect will expire
+    private bool isShieldActive = false; // Flag to track if the shield is active
+    private float nextShieldSpawnTime; // Time to spawn the next shield power-up
+    private bool isShieldSpawned = false; // Flag to track if the shield power-up is spawned
+    float minX = -66f;
+    float maxX = 66f;
+    float minY = -35f;
+    float maxY = 35f;
 
     public Transform segmentPrefab;
     public float speed = 20f;
     public float speedMultiplier = 1f;
     public int initialSize = 4;
     public bool moveThroughWalls = false;
+    public Transform ShieldPowerUpPrefab;
+    public GameObject shieldIcon;  // Reference to the shield icon or "Shield Active" text
+    public float shieldDuration = 5f;  // Duration of the shield effect in seconds
+    public float shieldCooldown = 10f; // Cooldown period before the shield can spawn again
 
     public GameOverController gameOverController;
     public ScoreController scoreController;
@@ -46,7 +58,22 @@ public class SnakeController : MonoBehaviour
             canMoveLeft = false;
         }
 
-       
+        if (!isShieldActive)
+        {
+            // Check if it's time to spawn the shield power-up
+            if (Time.time > nextShieldSpawnTime)
+            {
+                SpawnShieldPowerUp();
+            }
+        }
+        else
+        {
+            // Check if the shield has expired
+            if (Time.time >= shieldExpirationTime)
+            {
+                DeactivateShield();
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -101,6 +128,38 @@ public class SnakeController : MonoBehaviour
         }
     }
 
+    private void SpawnShieldPowerUp()
+    {
+        // Generate a random position within the grid area
+        Vector3 spawnPosition = new Vector3 (Random.Range(minX, maxX),
+                                            Random.Range(minY, maxY),
+                                            0f);
+
+        // Instantiate the shield power-up object at the spawn position
+        // Ensure that your "ShieldPowerUpPrefab" is assigned in the Unity Inspector
+        Transform powerup = Instantiate(ShieldPowerUpPrefab, spawnPosition, Quaternion.identity);
+
+        // Set the next spawn time and flag the power-up as spawned
+        nextShieldSpawnTime = Time.time + Random.Range(5f, 15f);
+        isShieldSpawned = true;
+    }
+
+    private void CollectShieldPowerUp(GameObject powerUp)
+    {
+        // Deactivate the power-up object
+        powerUp.SetActive(false);
+
+        // Activate the shield effect
+        isShieldActive = true;
+        shieldIcon.SetActive(true);
+        shieldExpirationTime = Time.time + shieldDuration;
+    }
+    private void DeactivateShield()
+    {
+        isShieldActive = false;
+        shieldIcon.SetActive(false);
+    }
+
     private void ResetState()
     {
         // Start at 1 to skip destroying the head
@@ -118,6 +177,10 @@ public class SnakeController : MonoBehaviour
         {
             Grow();
         }
+
+        // Reset the movement flags
+        canMoveUp = true;
+        canMoveLeft = false;
     }
 
     public bool Occupies(int x, int y)
@@ -172,11 +235,16 @@ public class SnakeController : MonoBehaviour
                 
             }
         }
-        else if (collision.gameObject.CompareTag("Obstacle"))
+        else if (!isShieldActive && collision.gameObject.CompareTag("Obstacle"))
         {
             //gameOverController.SnakeDied();
             Invoke(nameof(Load_Scene), 0f);
             ResetState();
+        }
+        else if (collision.gameObject.CompareTag("ShieldPowerUp"))
+        {
+            // Collect the shield power-up
+            CollectShieldPowerUp(collision.gameObject);
         }
         else if (collision.gameObject.CompareTag("Wall"))
         {
@@ -195,8 +263,11 @@ public class SnakeController : MonoBehaviour
 
     private void Load_Scene()
     {
-        Debug.Log(" Reloading Current Active Scene ");
-        gameOverController.SnakeDied();
-        
+        if (!isShieldActive)
+        {
+            Debug.Log(" Reloading Current Active Scene ");
+            gameOverController.SnakeDied();
+        }
+
     }
 }

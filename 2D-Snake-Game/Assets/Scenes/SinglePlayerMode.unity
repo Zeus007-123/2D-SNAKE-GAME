@@ -2811,6 +2811,10 @@ MonoBehaviour:
   speedMultiplier: 3
   initialSize: 4
   moveThroughWalls: 1
+  ShieldPowerUpPrefab: {fileID: 519272350052214267, guid: 1343a57177ccf3f43ada108a4f78709c, type: 3}
+  shieldIcon: {fileID: 474570192}
+  shieldDuration: 8
+  shieldCooldown: 15
   gameOverController: {fileID: 1961473509}
   scoreController: {fileID: 1498894382}
 --- !u!61 &2061179691
@@ -2939,7 +2943,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2535037855023706139, guid: 1343a57177ccf3f43ada108a4f78709c, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6739559064667739548, guid: 1343a57177ccf3f43ada108a4f78709c, type: 3}
@@ -3001,7 +3005,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8732699757501790833, guid: 72ffb0a58a194a94d84a9fae73dfdfeb, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1052179202256315261, guid: 72ffb0a58a194a94d84a9fae73dfdfeb, type: 3}
@@ -3076,7 +3080,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3046123735436346115, guid: 76caea3ddbe1bf64ab7d9aa5bdf8a908, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8547707453757303854, guid: 76caea3ddbe1bf64ab7d9aa5bdf8a908, type: 3}
       propertyPath: m_LocalPosition.x
