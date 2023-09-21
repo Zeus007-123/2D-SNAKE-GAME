@@ -13,8 +13,15 @@ public class SnakeController : MonoBehaviour
     private bool canMoveUp = true;
     private float shieldExpirationTime;  // Time when the shield effect will expire
     private bool isShieldActive = false; // Flag to track if the shield is active
+    private bool hasStartedShieldSpawn = false;
     private float nextShieldSpawnTime; // Time to spawn the next shield power-up
-    private bool isShieldSpawned = false; // Flag to track if the shield power-up is spawned
+    
+    private bool isScoreBoostActive = false; // Flag to track if the score boost is active
+    private float scoreBoostExpirationTime;  // Time when the score boost effect will expire
+    private int baseScoreIncrement = 10; // The base score increment without the power-up
+    private int baseScoreDecrement = 7;
+    private bool hasStartedScoreBoostSpawn = false;
+    private float nextScoreBoostSpawnTime;
     float minX = -66f;
     float maxX = 66f;
     float minY = -35f;
@@ -26,16 +33,24 @@ public class SnakeController : MonoBehaviour
     public int initialSize = 4;
     public bool moveThroughWalls = false;
     public Transform ShieldPowerUpPrefab;
+    public Transform ScoreBoostPrefab;
     public GameObject shieldIcon;  // Reference to the shield icon or "Shield Active" text
+    public TextMeshProUGUI scoreBoostText;
     public float shieldDuration = 5f;  // Duration of the shield effect in seconds
     public float shieldCooldown = 10f; // Cooldown period before the shield can spawn again
+    public float initialShieldSpawnDelay = 10f;
+    public float scoreBoostDuration = 5f;
+    public float scoreBoostCooldown = 15f;
+    public float initialScoreBoostSpawnDelay = 10f;
 
     public GameOverController gameOverController;
     public ScoreController scoreController;
 
     private void Start()
     {
-       ResetState();
+        nextShieldSpawnTime = Time.time + initialShieldSpawnDelay;
+        nextScoreBoostSpawnTime = Time.time + initialScoreBoostSpawnDelay;
+        ResetState();
     }
 
     private void Update()
@@ -61,9 +76,14 @@ public class SnakeController : MonoBehaviour
         if (!isShieldActive)
         {
             // Check if it's time to spawn the shield power-up
-            if (Time.time > nextShieldSpawnTime)
+            if (!hasStartedShieldSpawn && Time.time >= nextShieldSpawnTime)
             {
                 SpawnShieldPowerUp();
+                hasStartedShieldSpawn = true;
+            }
+            else if (Time.time > nextShieldSpawnTime + shieldCooldown)
+            {
+                    SpawnShieldPowerUp();
             }
         }
         else
@@ -72,6 +92,28 @@ public class SnakeController : MonoBehaviour
             if (Time.time >= shieldExpirationTime)
             {
                 DeactivateShield();
+            }
+        }
+
+        if (!isScoreBoostActive)
+        {
+            // Check if it's time to spawn the score boost power-up
+            if (!hasStartedScoreBoostSpawn && Time.time >= nextScoreBoostSpawnTime)
+            {
+                SpawnScoreBoostPowerUp();
+                hasStartedScoreBoostSpawn = true;
+            }
+            else if (Time.time > nextScoreBoostSpawnTime + scoreBoostCooldown)
+            {
+                SpawnScoreBoostPowerUp();
+            }
+        }
+        else
+        {
+            // Check if the score boost has expired
+            if (Time.time >= scoreBoostExpirationTime)
+            {
+                DeactivateScoreBoost();
             }
         }
     }
@@ -130,6 +172,7 @@ public class SnakeController : MonoBehaviour
 
     private void SpawnShieldPowerUp()
     {
+        Debug.Log(" Shield Power Up is Spawned");
         // Generate a random position within the grid area
         Vector3 spawnPosition = new Vector3 (Random.Range(minX, maxX),
                                             Random.Range(minY, maxY),
@@ -140,12 +183,29 @@ public class SnakeController : MonoBehaviour
         Transform powerup = Instantiate(ShieldPowerUpPrefab, spawnPosition, Quaternion.identity);
 
         // Set the next spawn time and flag the power-up as spawned
+        Debug.Log("Time since last Shield spawn: " + (Time.time - nextShieldSpawnTime));
         nextShieldSpawnTime = Time.time + Random.Range(5f, 15f);
-        isShieldSpawned = true;
     }
+    private void SpawnScoreBoostPowerUp()
+    {
+        Debug.Log(" Score Boost Power Up is Spawned");
+        // Generate a random position within the grid area
+        Vector3 newPosition = new Vector3(Random.Range(minX, maxX),
+                                            Random.Range(minY, maxY),
+                                            0f);
 
+        // Instantiate the shield power-up object at the spawn position
+        // Ensure that your "ScoreBoostPrefab" is assigned in the Unity Inspector
+        Transform scorepowerup = Instantiate(ScoreBoostPrefab, newPosition, Quaternion.identity);
+
+        // Set the next spawn time and flag the power-up as spawned
+        Debug.Log("Time since last Score Boost spawn: " + (Time.time - nextScoreBoostSpawnTime));
+        nextScoreBoostSpawnTime = Time.time + Random.Range(5f, 15f);
+    }
     private void CollectShieldPowerUp(GameObject powerUp)
     {
+        Debug.Log(" Shield Power Up is Collected ");
+        Debug.Log(" Shield Effect is Active ");
         // Deactivate the power-up object
         powerUp.SetActive(false);
 
@@ -154,10 +214,32 @@ public class SnakeController : MonoBehaviour
         shieldIcon.SetActive(true);
         shieldExpirationTime = Time.time + shieldDuration;
     }
+    private void CollectScoreBoostPowerUp(GameObject powerUp)
+    {
+        Debug.Log(" Score Boost Power Up is Collected ");
+        Debug.Log(" Score Boost Effect is Active ");
+        // Deactivate the power-up object
+        powerUp.SetActive(false);
+
+        // Activate the score boost effect
+        isScoreBoostActive = true;
+        scoreBoostExpirationTime = Time.time + scoreBoostDuration;
+        // Activate the score boost effect
+        scoreController.ActivateScoreBoost(); // Set score increment to 2 times
+        scoreBoostText.gameObject.SetActive(true); // Show the "2X" text
+    }
     private void DeactivateShield()
     {
+        Debug.Log(" Shield Effect is Deactivated ");
         isShieldActive = false;
         shieldIcon.SetActive(false);
+    }
+    private void DeactivateScoreBoost()
+    {
+        Debug.Log(" Score Boost Effect is Deactivated ");
+        isScoreBoostActive = false;
+        scoreController.DeactivateScoreBoost(); // Reset score increment to default
+        scoreBoostText.gameObject.SetActive(false); // Hide the "2X" text
     }
 
     private void ResetState()
@@ -221,7 +303,7 @@ public class SnakeController : MonoBehaviour
         if (collision.gameObject.CompareTag("MassGainerFood"))
         {
             Debug.Log(" Snake has Eaten the Mass Gainer Food ");
-            scoreController.IncreaseScore(10);
+            scoreController.IncreaseScore(baseScoreIncrement);
             Grow();
         }
         else if (collision.gameObject.CompareTag("MassBurnerFood"))
@@ -229,7 +311,7 @@ public class SnakeController : MonoBehaviour
             if (segments.Count >= 5)
             {
                 Debug.Log(" Snake has Eaten the Mass Burner Food ");
-                scoreController.DecreaseScore(7);
+                scoreController.DecreaseScore(baseScoreDecrement);
                 // Ensure the snake retains a minimum length of 3 segments
                 Shrink(2);
                 
@@ -237,6 +319,7 @@ public class SnakeController : MonoBehaviour
         }
         else if (!isShieldActive && collision.gameObject.CompareTag("Obstacle"))
         {
+            Debug.Log(" Snake Died");
             //gameOverController.SnakeDied();
             Invoke(nameof(Load_Scene), 0f);
             ResetState();
@@ -245,6 +328,11 @@ public class SnakeController : MonoBehaviour
         {
             // Collect the shield power-up
             CollectShieldPowerUp(collision.gameObject);
+        }
+        else if (collision.gameObject.CompareTag("ScoreBoostPowerUp"))
+        {
+            // Collect the score boost power-up
+            CollectScoreBoostPowerUp(collision.gameObject);
         }
         else if (collision.gameObject.CompareTag("Wall"))
         {
