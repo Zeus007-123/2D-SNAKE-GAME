@@ -29,8 +29,8 @@ public class CoOpGameOverController : MonoBehaviour
         //SoundManager.Instance.Play(Sounds.DeathMusic);
         GameOverScreen.SetActive(true);
         isGameOver = true;
-        Score1.SetActive(false);
-        Score2.SetActive(false);
+        //Score1.SetActive(false);
+        //Score2.SetActive(false);
         
     }
 

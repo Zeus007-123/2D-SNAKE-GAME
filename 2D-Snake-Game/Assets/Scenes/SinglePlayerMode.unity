@@ -580,7 +580,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -347, y: 515}
+  m_AnchoredPosition: {x: -327.9, y: 515}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &350496103
@@ -603,7 +603,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: speed up
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
@@ -848,7 +848,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -460, y: 521}
+  m_AnchoredPosition: {x: -500.3, y: 521}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &474570194
@@ -864,7 +864,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.58431375}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2872,19 +2872,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   segmentPrefab: {fileID: 5543405611429582732, guid: ef04b7c891b851f4b8a0565ed40d0aac, type: 3}
   speed: 18
-  speedMultiplier: 3
+  speedMultiplier: 2
   initialSize: 4
   moveThroughWalls: 1
   ShieldPowerUpPrefab: {fileID: 519272350052214267, guid: 1343a57177ccf3f43ada108a4f78709c, type: 3}
   ScoreBoostPrefab: {fileID: 8547707453757303854, guid: 76caea3ddbe1bf64ab7d9aa5bdf8a908, type: 3}
+  SpeedUpPrefab: {fileID: 4702358984221862171, guid: 72ffb0a58a194a94d84a9fae73dfdfeb, type: 3}
   shieldIcon: {fileID: 474570192}
   scoreBoostText: {fileID: 1119643720}
+  speedUpText: {fileID: 350496103}
   shieldDuration: 5
   shieldCooldown: 5
   initialShieldSpawnDelay: 5
-  scoreBoostDuration: 5
+  scoreBoostDuration: 7
   scoreBoostCooldown: 7
   initialScoreBoostSpawnDelay: 10
+  speedUpDuration: 6
+  speedUpCooldown: 8
+  initialSpeedUpSpawnDelay: 15
   gameOverController: {fileID: 1961473509}
   scoreController: {fileID: 1498894382}
 --- !u!1001 &2589068526886681867

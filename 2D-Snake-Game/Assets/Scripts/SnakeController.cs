@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 [RequireComponent(typeof(BoxCollider2D))]
 public class SnakeController : MonoBehaviour
@@ -11,6 +10,7 @@ public class SnakeController : MonoBehaviour
     private float nextUpdate;
     private bool canMoveLeft = false; //false because you start going to right side at the beginning of the game
     private bool canMoveUp = true;
+    
     private float shieldExpirationTime;  // Time when the shield effect will expire
     private bool isShieldActive = false; // Flag to track if the shield is active
     private bool hasStartedShieldSpawn = false;
@@ -22,6 +22,13 @@ public class SnakeController : MonoBehaviour
     private int baseScoreDecrement = 7;
     private bool hasStartedScoreBoostSpawn = false;
     private float nextScoreBoostSpawnTime;
+
+    private bool isSpeedUpActive = false; // Flag to track if the speed up is active
+    private float speedUpExpirationTime;  // Time when the speed up effect will expire
+    private float initialSpeed; // Store the initial speed of the snake
+    private bool hasStartedSpeedUpSpawn = false;
+    private float nextSpeedUpSpawnTime;
+
     float minX = -66f;
     float maxX = 66f;
     float minY = -35f;
@@ -34,14 +41,19 @@ public class SnakeController : MonoBehaviour
     public bool moveThroughWalls = false;
     public Transform ShieldPowerUpPrefab;
     public Transform ScoreBoostPrefab;
+    public Transform SpeedUpPrefab;
     public GameObject shieldIcon;  // Reference to the shield icon or "Shield Active" text
     public TextMeshProUGUI scoreBoostText;
+    public TextMeshProUGUI speedUpText;
     public float shieldDuration = 5f;  // Duration of the shield effect in seconds
     public float shieldCooldown = 10f; // Cooldown period before the shield can spawn again
     public float initialShieldSpawnDelay = 10f;
     public float scoreBoostDuration = 5f;
     public float scoreBoostCooldown = 15f;
     public float initialScoreBoostSpawnDelay = 10f;
+    public float speedUpDuration = 5f; // Duration of the speed up effect in seconds
+    public float speedUpCooldown = 15f; // Cooldown period before the speed up can spawn again
+    public float initialSpeedUpSpawnDelay = 20f; // Initial delay before the first speed up spawns
 
     public GameOverController gameOverController;
     public ScoreController scoreController;
@@ -50,9 +62,10 @@ public class SnakeController : MonoBehaviour
     {
         nextShieldSpawnTime = Time.time + initialShieldSpawnDelay;
         nextScoreBoostSpawnTime = Time.time + initialScoreBoostSpawnDelay;
+        nextSpeedUpSpawnTime = Time.time + initialSpeedUpSpawnDelay;
+        initialSpeed = speed; // Store the initial speed of the snake
         ResetState();
     }
-
     private void Update()
     {
         if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && canMoveUp == true){
@@ -116,8 +129,29 @@ public class SnakeController : MonoBehaviour
                 DeactivateScoreBoost();
             }
         }
-    }
 
+        if (!isSpeedUpActive)
+        {
+            // Check if it's time to spawn the speed up power-up
+            if (!hasStartedSpeedUpSpawn && Time.time >= nextSpeedUpSpawnTime)
+            {
+                SpawnSpeedUpPowerUp();
+                hasStartedSpeedUpSpawn = true;
+            }
+            else if (Time.time > nextSpeedUpSpawnTime + speedUpCooldown)
+            {
+                SpawnSpeedUpPowerUp();
+            }
+        }
+        else
+        {
+            // Check if the speed up has expired
+            if (Time.time >= speedUpExpirationTime)
+            {
+                DeactivateSpeedUp();
+            }
+        }
+    }
     private void FixedUpdate()
     {
         // Wait until the next update before proceeding
@@ -147,7 +181,6 @@ public class SnakeController : MonoBehaviour
         // Set the next update time based on the speed
         nextUpdate = Time.time + (1f / (speed * speedMultiplier));
     }
-
     private void Grow()
     {   
         Vector3 newPos = Vector2.zero;
@@ -155,7 +188,6 @@ public class SnakeController : MonoBehaviour
         Transform segment = Instantiate(segmentPrefab, newPos, Quaternion.identity);
         segments.Add(segment);
     }
-
     private void Shrink(int amount)
     {
         if (segments.Count > 3)
@@ -169,7 +201,6 @@ public class SnakeController : MonoBehaviour
             }
         }
     }
-
     private void SpawnShieldPowerUp()
     {
         Debug.Log(" Shield Power Up is Spawned");
@@ -185,6 +216,9 @@ public class SnakeController : MonoBehaviour
         // Set the next spawn time and flag the power-up as spawned
         Debug.Log("Time since last Shield spawn: " + (Time.time - nextShieldSpawnTime));
         nextShieldSpawnTime = Time.time + Random.Range(5f, 15f);
+
+        // Automatically destroy the power-up object after a certain delay (e.g., 10 seconds)
+        Destroy(powerup.gameObject, 7f); // Adjust the delay as needed
     }
     private void SpawnScoreBoostPowerUp()
     {
@@ -201,6 +235,28 @@ public class SnakeController : MonoBehaviour
         // Set the next spawn time and flag the power-up as spawned
         Debug.Log("Time since last Score Boost spawn: " + (Time.time - nextScoreBoostSpawnTime));
         nextScoreBoostSpawnTime = Time.time + Random.Range(5f, 15f);
+
+        // Automatically destroy the power-up object after a certain delay (e.g., 10 seconds)
+        Destroy(scorepowerup.gameObject, 7f); // Adjust the delay as needed
+    }
+    private void SpawnSpeedUpPowerUp()
+    {
+        Debug.Log(" Speed Up Power Up is Spawned");
+        // Generate a random position within the grid area
+        Vector3 newPos = new Vector3(Random.Range(minX, maxX),
+                                            Random.Range(minY, maxY),
+                                            0f);
+
+        // Instantiate the speed up power-up object at the spawn position
+        // Ensure that your "SpeedUpPrefab" is assigned in the Unity Inspector
+        Transform speedup = Instantiate(SpeedUpPrefab, newPos, Quaternion.identity);
+
+        // Set the next spawn time and flag the power-up as spawned
+        Debug.Log("Time since last Speed Up spawn: " + (Time.time - nextSpeedUpSpawnTime));
+        nextSpeedUpSpawnTime = Time.time + Random.Range(5f, 15f);
+
+        // Automatically destroy the power-up object after a certain delay (e.g., 10 seconds)
+        Destroy(speedup.gameObject, 10f); // Adjust the delay as needed
     }
     private void CollectShieldPowerUp(GameObject powerUp)
     {
@@ -228,6 +284,21 @@ public class SnakeController : MonoBehaviour
         scoreController.ActivateScoreBoost(); // Set score increment to 2 times
         scoreBoostText.gameObject.SetActive(true); // Show the "2X" text
     }
+    private void CollectSpeedUpPowerUp(GameObject powerUp)
+    {
+        Debug.Log(" Speed Up Power Up is Collected ");
+        Debug.Log(" Speed Up Effect is Active ");
+        // Deactivate the power-up object
+        powerUp.SetActive(false);
+
+        // Activate the speed up effect
+        isSpeedUpActive = true;
+        speedUpText.gameObject.SetActive(true); // Show the "SPEED UP" text
+        speedUpExpirationTime = Time.time + speedUpDuration;
+
+        // Modify the snake's speed to make it faster
+        speed *= 2f; // You can adjust the speed multiplier as needed
+    }
     private void DeactivateShield()
     {
         Debug.Log(" Shield Effect is Deactivated ");
@@ -241,7 +312,15 @@ public class SnakeController : MonoBehaviour
         scoreController.DeactivateScoreBoost(); // Reset score increment to default
         scoreBoostText.gameObject.SetActive(false); // Hide the "2X" text
     }
+    private void DeactivateSpeedUp()
+    {
+        Debug.Log(" Speed Up Effect is Deactivated ");
+        isSpeedUpActive = false;
+        speedUpText.gameObject.SetActive(false); // Hide the "SPEED UP" text
 
+        // Restore the snake's initial speed
+        speed = initialSpeed;
+    }
     private void ResetState()
     {
         // Start at 1 to skip destroying the head
@@ -264,7 +343,6 @@ public class SnakeController : MonoBehaviour
         canMoveUp = true;
         canMoveLeft = false;
     }
-
     public bool Occupies(int x, int y)
     {
         foreach (Transform segment in segments)
@@ -278,7 +356,6 @@ public class SnakeController : MonoBehaviour
 
         return false;
     }
-
     private void Traverse(Transform wall)
     {
         Vector3 position = transform.position;
@@ -294,9 +371,6 @@ public class SnakeController : MonoBehaviour
 
         transform.position = position;
     }
-
-    
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
        
@@ -334,6 +408,11 @@ public class SnakeController : MonoBehaviour
             // Collect the score boost power-up
             CollectScoreBoostPowerUp(collision.gameObject);
         }
+        else if (collision.gameObject.CompareTag("SpeedPowerUp"))
+        {
+            // Collect the speed up power-up
+            CollectSpeedUpPowerUp(collision.gameObject);
+        }
         else if (collision.gameObject.CompareTag("Wall"))
         {
             if (moveThroughWalls)
@@ -348,7 +427,6 @@ public class SnakeController : MonoBehaviour
             }
         }
     }
-
     private void Load_Scene()
     {
         if (!isShieldActive)
