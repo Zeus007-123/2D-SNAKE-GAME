@@ -373,7 +373,7 @@ public class SnakeController : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-       
+       CameraShake.instance.ShakeCamera();
         if (collision.gameObject.CompareTag("MassGainerFood"))
         {
             Debug.Log(" Snake has Eaten the Mass Gainer Food ");
