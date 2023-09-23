@@ -187,7 +187,6 @@ public class Snake2Controller : MonoBehaviour
     }
     private void Load_Scene()
     {
-        Debug.Log(" Reloading Current Active Scene ");
         gameOverController.SnakeDied();
         
 
