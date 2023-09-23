@@ -5,12 +5,15 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class SnakeController : MonoBehaviour
 {
+    [SerializeField] private SoundManager audiocontroller;
     private Vector2 direction = Vector2.right;
     private List<Transform> segments = new List<Transform>();
     private float nextUpdate;
     private bool canMoveLeft = false; //false because you start going to right side at the beginning of the game
     private bool canMoveUp = true;
-    
+    // Add a boolean to track whether the game is over
+    private bool isGameOver = false;
+
     private float shieldExpirationTime;  // Time when the shield effect will expire
     private bool isShieldActive = false; // Flag to track if the shield is active
     private bool hasStartedShieldSpawn = false;
@@ -203,6 +206,10 @@ public class SnakeController : MonoBehaviour
     }
     private void SpawnShieldPowerUp()
     {
+        if (isGameOver)
+        {
+            return; // Don't spawn power-ups when game is over
+        }
         Debug.Log(" Shield Power Up is Spawned");
         // Generate a random position within the grid area
         Vector3 spawnPosition = new Vector3 (Random.Range(minX, maxX),
@@ -222,6 +229,10 @@ public class SnakeController : MonoBehaviour
     }
     private void SpawnScoreBoostPowerUp()
     {
+        if (isGameOver)
+        {
+            return; // Don't spawn power-ups when game is over
+        }
         Debug.Log(" Score Boost Power Up is Spawned");
         // Generate a random position within the grid area
         Vector3 newPosition = new Vector3(Random.Range(minX, maxX),
@@ -241,6 +252,10 @@ public class SnakeController : MonoBehaviour
     }
     private void SpawnSpeedUpPowerUp()
     {
+        if (isGameOver)
+        {
+            return; // Don't spawn power-ups when game is over
+        }
         Debug.Log(" Speed Up Power Up is Spawned");
         // Generate a random position within the grid area
         Vector3 newPos = new Vector3(Random.Range(minX, maxX),
@@ -379,13 +394,15 @@ public class SnakeController : MonoBehaviour
             Debug.Log(" Snake has Eaten the Mass Gainer Food ");
             scoreController.IncreaseScore(baseScoreIncrement);
             Grow();
+            SoundManager.Instance.Play(Sounds.pickup);
         }
         else if (collision.gameObject.CompareTag("MassBurnerFood"))
         {
+            SoundManager.Instance.Play(Sounds.pickup);
+            scoreController.DecreaseScore(baseScoreDecrement);
             if (segments.Count >= 5)
             {
                 Debug.Log(" Snake has Eaten the Mass Burner Food ");
-                scoreController.DecreaseScore(baseScoreDecrement);
                 // Ensure the snake retains a minimum length of 3 segments
                 Shrink(2);
                 
@@ -394,7 +411,7 @@ public class SnakeController : MonoBehaviour
         else if (!isShieldActive && collision.gameObject.CompareTag("Obstacle"))
         {
             Debug.Log(" Snake Died");
-            //gameOverController.SnakeDied();
+            SoundManager.Instance.Play(Sounds.gameOver);
             Invoke(nameof(Load_Scene), 0f);
             ResetState();
         }
@@ -402,16 +419,19 @@ public class SnakeController : MonoBehaviour
         {
             // Collect the shield power-up
             CollectShieldPowerUp(collision.gameObject);
+            SoundManager.Instance.Play(Sounds.pickup);
         }
         else if (collision.gameObject.CompareTag("ScoreBoostPowerUp"))
         {
             // Collect the score boost power-up
             CollectScoreBoostPowerUp(collision.gameObject);
+            SoundManager.Instance.Play(Sounds.pickup);
         }
         else if (collision.gameObject.CompareTag("SpeedPowerUp"))
         {
             // Collect the speed up power-up
             CollectSpeedUpPowerUp(collision.gameObject);
+            SoundManager.Instance.Play(Sounds.pickup);
         }
         else if (collision.gameObject.CompareTag("Wall"))
         {
@@ -433,6 +453,7 @@ public class SnakeController : MonoBehaviour
         {
             Debug.Log(" Reloading Current Active Scene ");
             gameOverController.SnakeDied();
+            isGameOver = true; // Set the game to be over
         }
 
     }

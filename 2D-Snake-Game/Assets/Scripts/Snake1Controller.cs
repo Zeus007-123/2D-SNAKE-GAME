@@ -23,7 +23,6 @@ public class Snake1Controller : MonoBehaviour
     {
        ResetState();
     }
-
     private void Update()
     {
         if ((Input.GetKeyDown(KeyCode.UpArrow)) && canMoveUp == true){
@@ -44,7 +43,6 @@ public class Snake1Controller : MonoBehaviour
             canMoveLeft = false;
         }
     }
-
     private void FixedUpdate()
     {
         if(CoOpGameOverController.isGameOver)
@@ -75,12 +73,9 @@ public class Snake1Controller : MonoBehaviour
 
         segments[1].position = hpos;
         
-
-
         // Set the next update time based on the speed
         nextUpdate = Time.time + (1f / (speed * speedMultiplier));
     }
-
     private void Grow()
     {
            
@@ -93,7 +88,6 @@ public class Snake1Controller : MonoBehaviour
 
         segments.Add(segment);
     }
-
     private void Shrink(int amount)
     {
         if (segments.Count > 3)
@@ -107,7 +101,6 @@ public class Snake1Controller : MonoBehaviour
             }
         }
     }
-
     private void ResetState()
     {
         // Start at 1 to skip destroying the head
@@ -125,10 +118,7 @@ public class Snake1Controller : MonoBehaviour
         {
             Grow();
         }
-
-       
     }
-
     public bool Occupies(int x, int y)
     {
         foreach (Transform segment in segments)
@@ -142,7 +132,6 @@ public class Snake1Controller : MonoBehaviour
 
         return false;
     }
-
     private void Traverse(Transform wall)
     {
         Vector3 position = transform.position;
@@ -158,22 +147,22 @@ public class Snake1Controller : MonoBehaviour
 
         transform.position = position;
     }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
-       
         if (collision.gameObject.CompareTag("MassGainerFood"))
         {
             Debug.Log(" Snake 1 has Eaten the Mass Gainer Food ");
             snake1scoreUIController.IncreaseScore(10);
             Grow();
+            SoundManager.Instance.Play(Sounds.pickup);
         }
         else if (collision.gameObject.CompareTag("MassBurnerFood"))
         {
+            SoundManager.Instance.Play(Sounds.pickup);
+            snake1scoreUIController.DecreaseScore(7);
             if (segments.Count >= 5)
             {
                 Debug.Log(" Snake 1 has Eaten the Mass Burner Food ");
-                snake1scoreUIController.DecreaseScore(7);
                 // Ensure the snake retains a minimum length of 3 segments
                 Shrink(2);
             }
@@ -196,12 +185,9 @@ public class Snake1Controller : MonoBehaviour
             }
         }
     }
-
     private void Load_Scene()
     {
         Debug.Log(" Reloading Current Active Scene ");
         gameOverController.SnakeDied();
-        
-
     }
 }

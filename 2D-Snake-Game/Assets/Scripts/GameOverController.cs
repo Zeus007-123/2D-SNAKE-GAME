@@ -9,7 +9,6 @@ public class GameOverController : MonoBehaviour
 
     public GameObject GameOverScreen;
     public GameObject Score;
-
     private void Awake()
     {
         buttonRestart.onClick.AddListener(RestartLevel);
@@ -17,23 +16,21 @@ public class GameOverController : MonoBehaviour
     }
     public void SnakeDied()
     {
-        //SoundManager.Instance.Play(Sounds.PlayerDeath);
-        //SoundManager.Instance.Play(Sounds.DeathMusic);
         GameOverScreen.SetActive(true);
         Score.SetActive(false);
     }
 
     private void RestartLevel()
     {
-        //SoundManager.Instance.Play(Sounds.ButtonClick);
         Debug.Log(" Reloading Active Scene ");
+        SoundManager.Instance.Play(Sounds.buttonClick);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     private void GoHome()
     {
-        //SoundManager.Instance.Play(Sounds.ButtonClick);
         Debug.Log(" Going to Home Lobby Screen/Scene ");
+        SoundManager.Instance.Play(Sounds.buttonClick);
         SceneManager.LoadScene(0);
     }
 }

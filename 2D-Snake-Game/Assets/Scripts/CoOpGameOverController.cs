@@ -25,26 +25,21 @@ public class CoOpGameOverController : MonoBehaviour
     }
     public void SnakeDied()
     {
-        //SoundManager.Instance.Play(Sounds.PlayerDeath);
-        //SoundManager.Instance.Play(Sounds.DeathMusic);
         GameOverScreen.SetActive(true);
         isGameOver = true;
-        //Score1.SetActive(false);
-        //Score2.SetActive(false);
         
     }
 
     private void RestartLevel()
     {
-        //SoundManager.Instance.Play(Sounds.ButtonClick);
-        Debug.Log(" Reloading Active Scene ");
+        SoundManager.Instance.Play(Sounds.buttonClick);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     private void GoHome()
     {
-        //SoundManager.Instance.Play(Sounds.ButtonClick);
         Debug.Log(" Going to Home Lobby Screen/Scene ");
+        SoundManager.Instance.Play(Sounds.buttonClick);
         SceneManager.LoadScene(0);
     }
 }

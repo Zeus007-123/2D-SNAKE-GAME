@@ -21,26 +21,26 @@ public class LobbyController : MonoBehaviour
 
     private void PlayGame()
     {
-        //SoundManager.Instance.Play(Sounds.ButtonClick);
+        SoundManager.Instance.Play(Sounds.buttonClick);
         ModeSelection.SetActive(true);
     }
 
     private void QuitGame()
     {
-        //SoundManager.Instance.Play(Sounds.ButtonClick);
         Debug.Log(" Quit Application");
+        SoundManager.Instance.Play(Sounds.buttonClick);
         Application.Quit();
     }
 
     private void SingleMode()
     {
-        //SoundManager.Instance.Play(Sounds.ButtonClick);
+        SoundManager.Instance.Play(Sounds.buttonClick);
         SceneManager.LoadScene(1);
     }
 
     private void CoOp()
     {
-        //SoundManager.Instance.Play(Sounds.ButtonClick);
+        SoundManager.Instance.Play(Sounds.buttonClick);
         SceneManager.LoadScene(2);
     }
 }

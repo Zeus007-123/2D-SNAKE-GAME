@@ -2644,7 +2644,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1902774753}
   - component: {fileID: 1902774752}
-  - component: {fileID: 1902774751}
   - component: {fileID: 1902774754}
   - component: {fileID: 1902774755}
   m_Layer: 7
@@ -2654,14 +2653,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1902774751
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1902774750}
-  m_Enabled: 1
 --- !u!20 &1902774752
 Camera:
   m_ObjectHideFlags: 0
@@ -2672,7 +2663,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.055923674, g: 0, b: 0.07450981, a: 0}
+  m_BackGroundColor: {r: 0.05882353, g: 0, b: 0.07450981, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -3211,6 +3202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cfe81bc144436844bcbaf5fc95ae01e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audiocontroller: {fileID: 0}
   segmentPrefab: {fileID: 5543405611429582732, guid: ef04b7c891b851f4b8a0565ed40d0aac, type: 3}
   speed: 18
   speedMultiplier: 2
@@ -3421,6 +3413,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1902774753}
+  - {fileID: 1107657546}
   - {fileID: 1643472812}
   - {fileID: 1361099217}
   - {fileID: 1481218273}
@@ -3435,4 +3428,3 @@ SceneRoots:
   - {fileID: 2589068526886681867}
   - {fileID: 606871721}
   - {fileID: 210937773}
-  - {fileID: 1107657546}
