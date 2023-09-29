@@ -4,9 +4,13 @@ using UnityEngine.SceneManagement;
 
 public class LobbyController : MonoBehaviour
 {
+    [Header("Play Button")]
     [SerializeField] private Button buttonPlay;
+    [Header("Quit Button")]
     [SerializeField] private Button buttonQuit;
+    [Header("SingleMode Button")]
     [SerializeField] private Button buttonSingle;
+    [Header("CoOpMode Button")]
     [SerializeField] private Button buttonCoOp;
 
     public GameObject ModeSelection;
@@ -34,12 +38,14 @@ public class LobbyController : MonoBehaviour
 
     private void SingleMode()
     {
+        Time.timeScale = 0.7f;
         SoundManager.Instance.Play(Sounds.buttonClick);
         SceneManager.LoadScene(1);
     }
 
     private void CoOp()
     {
+        Time.timeScale = 0.7f;
         SoundManager.Instance.Play(Sounds.buttonClick);
         SceneManager.LoadScene(2);
     }

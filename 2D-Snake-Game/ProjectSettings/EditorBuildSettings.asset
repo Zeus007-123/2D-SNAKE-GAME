@@ -9,9 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/HomeLobbyScreen.unity
     guid: 91e7cbab5fc398c4c9e322721f6b39e7
   - enabled: 1
-    path: Assets/Scenes/SinglePlayerMode.unity
-    guid: f1e18fc4f36e58346931c9fc922084ef
+    path: Assets/Scenes/SinglePlayerModeV2.unity
+    guid: fd076501d828d254f9619e98c4b73109
   - enabled: 1
-    path: Assets/Scenes/Co-OpMode.unity
-    guid: 9f65bea7ba0f67f4e9a42ab67caab244
+    path: Assets/Scenes/Co-OpModeV3.unity
+    guid: 2f121b5e439fd374a845ba9e93f9562e
   m_configObjects: {}

@@ -3,6 +3,8 @@ using TMPro;
 
 public class ScoreController : MonoBehaviour
 {
+    public int snakeNumber; // Add a player number to distinguish between Snake1 and Snake2
+
     private TextMeshProUGUI scoreText;
     private int score = 0;
     private int scoreMultiplier = 1; // Default multiplier is 1
@@ -42,9 +44,19 @@ public class ScoreController : MonoBehaviour
 
     private void RefreshUI()
     {
-        scoreText.text = "Score : " + score;
+        if (snakeNumber == 0)
+        {
+            scoreText.text = "Score : " + score;
+        }
+        else if (snakeNumber == 1)
+        {
+            // Update UI for Snake1
+            scoreText.text = "Snake 1 : " + score;
+        }
+        else if (snakeNumber == 2)
+        {
+            // Update UI for Snake2
+            scoreText.text = "Snake 2 : " + score;
+        }
     }
-
-    
-
 }
