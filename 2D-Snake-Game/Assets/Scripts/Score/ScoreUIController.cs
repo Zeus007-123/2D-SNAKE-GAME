@@ -3,15 +3,13 @@ using TMPro;
 
 public class ScoreController : MonoBehaviour
 {
-    public int snakeNumber; // Add a player number to distinguish between Snake1 and Snake2
-
-    private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI scoreText;
     private int score = 0;
-    private int scoreMultiplier = 1; // Default multiplier is 1
+    private int scoreMultiplier = 1;
+    private SnakeType activeSnake = SnakeType.Snake0;
 
     private void Awake()
     {
-        scoreText = GetComponent<TextMeshProUGUI>();
         score = 0;
         RefreshUI();
     }
@@ -41,21 +39,24 @@ public class ScoreController : MonoBehaviour
         }
         RefreshUI();
     }
+    public void SetActiveSnake(SnakeType snake)
+    {
+        activeSnake = snake;
+        RefreshUI();
+    }
 
     private void RefreshUI()
     {
-        if (snakeNumber == 0)
+        if (activeSnake == SnakeType.Snake0)
         {
             scoreText.text = "Score : " + score;
         }
-        else if (snakeNumber == 1)
+        else if (activeSnake == SnakeType.Snake1)
         {
-            // Update UI for Snake1
             scoreText.text = "Snake 1 : " + score;
         }
-        else if (snakeNumber == 2)
+        else if (activeSnake == SnakeType.Snake2)
         {
-            // Update UI for Snake2
             scoreText.text = "Snake 2 : " + score;
         }
     }

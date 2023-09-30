@@ -2684,10 +2684,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8d6ee48c23fcf347af4a4279d4744b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  snakeNumber: 2
+  GameOverScreen: {fileID: 1231036714}
   buttonRestart: {fileID: 44344118}
   buttonHome: {fileID: 425812481}
-  GameOverScreen: {fileID: 1231036714}
 --- !u!114 &1231036717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3308,7 +3307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f82fb84bd4766be4f888275667ceb466, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  snakeNumber: 2
+  scoreText: {fileID: 1395941574}
 --- !u!114 &1395941574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3683,7 +3682,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f82fb84bd4766be4f888275667ceb466, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  snakeNumber: 1
+  scoreText: {fileID: 1498894380}
 --- !u!1 &1536142286
 GameObject:
   m_ObjectHideFlags: 0
@@ -3819,6 +3818,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cfe81bc144436844bcbaf5fc95ae01e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audiocontroller: {fileID: 0}
   snakeNumber: 2
   upKey: 119
   downKey: 115
@@ -4719,10 +4719,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8d6ee48c23fcf347af4a4279d4744b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  snakeNumber: 1
+  GameOverScreen: {fileID: 1961473505}
   buttonRestart: {fileID: 705494858}
   buttonHome: {fileID: 2030997249}
-  GameOverScreen: {fileID: 1961473505}
 --- !u!1 &2030997247
 GameObject:
   m_ObjectHideFlags: 0
@@ -5015,6 +5014,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cfe81bc144436844bcbaf5fc95ae01e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audiocontroller: {fileID: 0}
   snakeNumber: 1
   upKey: 273
   downKey: 274
