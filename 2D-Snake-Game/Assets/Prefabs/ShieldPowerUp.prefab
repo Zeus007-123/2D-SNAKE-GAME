@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 519272350052214267}
   - component: {fileID: 1880242623707445377}
   - component: {fileID: 1025355875543613046}
-  - component: {fileID: 6739559064667739548}
   m_Layer: 0
   m_Name: ShieldPowerUp
   m_TagString: ShieldPowerUp
@@ -131,15 +130,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4.505596, y: 5.12}
   m_EdgeRadius: 0
---- !u!114 &6739559064667739548
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2535037855023706139}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32d53946bb3b72f46895f62c9e92601b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
