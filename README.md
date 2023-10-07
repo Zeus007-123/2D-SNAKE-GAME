@@ -1,5 +1,3 @@
-2D-SNAKE-GAME
-
 SNAKE CLASSIC 2D - A classic snake 2D game with mode selections of Single Player and Co-Op Mode
 
 Features implemented are :-
