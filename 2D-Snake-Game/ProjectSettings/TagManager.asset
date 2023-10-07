@@ -5,11 +5,16 @@ TagManager:
   serializedVersion: 2
   tags:
   - Snake
-  - Food
   - Wall
   - Obstacle
   - Snake1
   - Snake2
+  - MassGainerFood
+  - MassBurnerFood
+  - SpeedPowerUp
+  - ScoreBoostPowerUp
+  - ShieldPowerUp
+  - shieldIcon
   layers:
   - Default
   - TransparentFX
@@ -18,7 +23,7 @@ TagManager:
   - Water
   - UI
   - Food
-  - 
+  - PostProcessing
   - 
   - 
   - 
