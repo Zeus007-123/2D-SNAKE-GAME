@@ -14,12 +14,6 @@ public class GameOverController : MonoBehaviour
 
     [SerializeField] private Button buttonRestart;
     [SerializeField] private Button buttonHome;
-
-    private void Awake()
-    {
-        buttonRestart.onClick.AddListener(RestartLevel);
-        buttonHome.onClick.AddListener(GoHome);
-    }
     public void SnakeDied(SnakeType snake)
     {
          if (snake == SnakeType.Snake0)
@@ -35,13 +29,13 @@ public class GameOverController : MonoBehaviour
              GameOverScreen.SetActive(true);
          }
     }
-    private void RestartLevel()
+    public void RestartLevel()
     {
          Debug.Log(" Reloading Active Scene ");
          SoundManager.Instance.Play(Sounds.buttonClick);
          SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
-    private void GoHome()
+    public void GoHome()
     {
          Debug.Log(" Going to Home Lobby Screen/Scene ");
          SoundManager.Instance.Play(Sounds.buttonClick);
