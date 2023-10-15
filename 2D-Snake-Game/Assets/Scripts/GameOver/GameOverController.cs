@@ -31,13 +31,11 @@ public class GameOverController : MonoBehaviour
     }
     public void RestartLevel()
     {
-         Debug.Log(" Reloading Active Scene ");
          SoundManager.Instance.Play(Sounds.buttonClick);
          SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     public void GoHome()
     {
-         Debug.Log(" Going to Home Lobby Screen/Scene ");
          SoundManager.Instance.Play(Sounds.buttonClick);
          SceneManager.LoadScene(0);
     }
