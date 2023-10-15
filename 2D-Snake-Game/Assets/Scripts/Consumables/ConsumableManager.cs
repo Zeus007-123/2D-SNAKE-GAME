@@ -8,6 +8,7 @@ public class ConsumableManager : MonoBehaviour
 
         [Header("Power Up")]
         [Range(0, 10)]
+
         [SerializeField] private float spawnInterval;
         [SerializeField] private PowerUp[] powerUps;
 

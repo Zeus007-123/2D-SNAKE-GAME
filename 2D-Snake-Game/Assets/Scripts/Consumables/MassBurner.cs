@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class MassBurner : Food
 {
         protected override void ConsumeEffect(SnakeController snake)
