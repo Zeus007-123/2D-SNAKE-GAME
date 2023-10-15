@@ -16,18 +16,18 @@ public class ScoreController : MonoBehaviour
 
     public void IncreaseScore(int increment)
     {
-        score += increment * scoreMultiplier; // Multiply the increment by the scoreMultiplier
+        score += increment * scoreMultiplier;
         RefreshUI();
     }
     public void ActivateScoreBoost()
     {
-        scoreMultiplier = 2; // Set the score multiplier to 2
+        scoreMultiplier = 2; 
         RefreshUI();
     }
 
     public void DeactivateScoreBoost()
     {
-        scoreMultiplier = 1; // Set the score multiplier back to 1
+        scoreMultiplier = 1; 
         RefreshUI();
     }
     public void DecreaseScore(int decrement)
