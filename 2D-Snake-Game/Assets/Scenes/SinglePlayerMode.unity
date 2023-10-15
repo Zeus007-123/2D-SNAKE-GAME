@@ -413,6 +413,7 @@ GameObject:
   - component: {fileID: 275145611}
   - component: {fileID: 275145610}
   - component: {fileID: 275145609}
+  - component: {fileID: 275145612}
   m_Layer: 6
   m_Name: MassGainerFood
   m_TagString: MassGainerFood
@@ -532,6 +533,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &275145612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 275145608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9596f9926c8f87c40bd58c27ee7d2887, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  manager: {fileID: 1536142288}
+  timeOnScreen: 4
+  amount: 1
+  score: 10
 --- !u!1 &349918681
 GameObject:
   m_ObjectHideFlags: 3
@@ -1493,6 +1510,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 390980a3d0ade534aaf00e2bf2501416, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  manager: {fileID: 1536142288}
+  timeOnScreen: 3
+  amount: 2
+  score: 7
 --- !u!1 &1107657544
 GameObject:
   m_ObjectHideFlags: 0
@@ -2496,6 +2517,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48c8318c89e67b446829abbd537c33c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridArea: {fileID: 247766534}
+  snakeController: {fileID: 2061179693}
+  foods:
+  - {fileID: 275145612}
+  - {fileID: 1034252945}
+  spawnInterval: 6
+  powerUps:
+  - {fileID: 3958220441660036645}
+  - {fileID: 6710767770633836159}
+  - {fileID: 2589068526886681869}
 --- !u!1 &1562169541
 GameObject:
   m_ObjectHideFlags: 0
