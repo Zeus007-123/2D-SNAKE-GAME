@@ -56,6 +56,10 @@ UI :-
 Implemented Basic UI like Death, Win, Score, Lobby UI for the game.
 Implemented Play,Restart,Quit,Home,Single Mode & Co-Op Mode Buttons.
 
+Playable Link :-
+
+https://akgamesarena.itch.io/snake-classic-2d
+
 GAMEPLAY VIDEO :-
 
 https://github.com/Zeus007-123/2D-SNAKE-GAME/assets/85187332/0da3a04a-1a34-4405-8cf8-af5eda6e4015
